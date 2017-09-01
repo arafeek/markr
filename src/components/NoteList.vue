@@ -1,4 +1,5 @@
 <script>
+import R from 'ramda';
 import NoteItem from './NoteItem';
 import Modal from './Modal';
 import ButtonX from './Button';
@@ -22,7 +23,12 @@ export default {
   },
   methods: {
     toggleModal() {
+      this.$store.commit('prepNewNote');
       this.$store.commit('toggleModal');
+    },
+    visible(notes) {
+      // determines which notes to show based on sorting and filtering
+      return R.sortBy(R.descend(R.prop('created')))(notes);
     },
   },
 };
@@ -42,7 +48,7 @@ export default {
 
     <button-x :onpress="toggleModal" text="New Note"></button-x>
     <div id="note-list" v-if="notes.length > 0">
-      <note-item v-for="(note, i) in notes" v-bind:key="i" :note="note"/>
+      <note-item v-for="(note, i) in visible(notes)" v-bind:key="note.id" :note="note"/>
     </div>
   </div>
 </template>

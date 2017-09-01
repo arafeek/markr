@@ -22,6 +22,10 @@
       save() {
         this.$store.commit('saveNote');
         console.log('save called');
+        this.$store.commit('toggleModal');
+      },
+      toggle() {
+        this.$store.commit('toggleModal');
       },
     },
   };
@@ -31,6 +35,7 @@
   <div class="container">
     <div id="editor">
       <textarea :value="input"
+        @keyup.esc="toggle"
         @input="update">
       </textarea>
       <div id="md-display"

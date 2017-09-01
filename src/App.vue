@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <i class="fa fa-pencil-square fa-5x"></i>
+    <h1>markr</h1>
     <router-view></router-view>
   </div>
 </template>
@@ -12,6 +13,11 @@ export default {
 </script>
 
 <style>
+html,body {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
