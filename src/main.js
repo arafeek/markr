@@ -5,16 +5,18 @@ import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 import App from './App';
 import router from './router';
+import {
+  loadNotesFromStorage,
+  saveNotesToStorage,
+} from './services/persistance';
 
 Vue.use(Vuex);
 Vue.config.productionTip = false;
 
-const initialNotes = window.localStorage.getItem('my-notes');
-
 const store = new Vuex.Store({
   plugins: [createLogger()],
   state: {
-    notes: initialNotes ? JSON.parse(initialNotes) : [],
+    notes: loadNotesFromStorage(),
     editor: {
       content: '# Welcome',
     },
@@ -26,7 +28,7 @@ const store = new Vuex.Store({
     },
     saveNote(state) {
       state.notes.push({ body: state.editor.content });
-      window.localStorage.setItem('my-notes', JSON.stringify(state.notes));
+      saveNotesToStorage(state.notes);
     },
     toggleModal(state) {
       state.showModal = !state.showModal; //eslint-disable-line
