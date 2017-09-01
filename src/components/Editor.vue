@@ -1,33 +1,45 @@
-<template>
-  <div id="editor">
-    <textarea :value="input" @input="update"></textarea>
-    <div v-html="compiledMarkdown"></div>
-  </div>
-</template>
-
 <script>
   import * as marked from 'marked';
   import _ from 'lodash';
 
+  import ButtonX from './Button';
+
   export default {
     name: 'editor',
-    data() {
-      return {
-        input: '# hello',
-      };
-    },
+    components: { ButtonX },
     computed: {
+      input() {
+        return this.$store.state.editor.content;
+      },
       compiledMarkdown() {
         return marked(this.input || '', { sanitized: true });
       },
     },
     methods: {
       update: _.debounce(function (e) {
-        this.input = e.target.value;
+        this.$store.commit('updateEditor', e.target.value);
       }, 300),
+      save() {
+        this.$store.commit('saveNote');
+        console.log('save called');
+      },
     },
   };
 </script>
+
+<template>
+  <div class="container">
+    <div id="editor">
+      <textarea :value="input"
+        @input="update">
+      </textarea>
+      <div id="md-display"
+        v-html="compiledMarkdown">
+      </div>
+    </div>
+    <button-x text="Save" :onpress="save"></button-x>
+  </div>
+</template>
 
 <style scoped>
 html, body, #editor {
@@ -35,6 +47,15 @@ html, body, #editor {
   height: 100%;
   font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #333;
+}
+
+#editor {
+  height: 50vh;
+  overflow: hidden;
+}
+
+#md-display {
+  overflow: scroll;
 }
 
 textarea, #editor div {
