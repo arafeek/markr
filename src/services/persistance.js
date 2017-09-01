@@ -3,9 +3,10 @@ const NOTES_KEY = 'my-notes';
 export const loadNotesFromStorage = () => {
   try {
     const data = localStorage.getItem(NOTES_KEY);
-    return JSON.parse(data);
+    return data ? JSON.parse(data) : [];
   } catch (e) {
-    return null;
+    console.log(e);
+    return [];
   }
 };
 
