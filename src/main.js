@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueFire from 'vuefire';
+import dotenv from 'dotenv';
 import createLogger from 'vuex/dist/logger';
 import uuidv4 from 'uuid/v4';
 import R from 'ramda';
@@ -13,9 +15,15 @@ import {
   saveNotesToStorage,
 } from './services/persistance';
 
+// Init dotenv
+dotenv.config();
+
+// Config Vue Instance
 Vue.use(Vuex);
+Vue.use(VueFire);
 Vue.config.productionTip = false;
 
+// Set up Vuex
 const store = new Vuex.Store({
   plugins: [createLogger()],
   state: {
